@@ -21,3 +21,7 @@ interface Expected2 {
   title: string
   completed: boolean
 }
+
+type MyPick<T, K extends keyof T> = {
+  [key in K]: T[key]
+}

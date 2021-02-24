@@ -17,8 +17,18 @@ interface Todo2 {
   completed?: boolean
 }
 
-type Mark<T> = {
-  [key in keyof T]: Equal<{ -readonly [x in key]: T[x] }, { [x in key]: T[x] }> extends false ? key : never
+type NoNever<T> = {
+  [key in keyof T as T[key] extends never ? never : key]: T[key]
 }
 
-type GetReadonlyKeys<T> = NonNullable<Mark<T>[keyof Mark<T>]>
+type MarkNever<T> = {
+  [key in keyof T]-?: Equal<{ -readonly [x in key]: T[x] }, { [x in key]: T[x] }> extends false ? T[key] : never
+}
+
+type GetReadonlyKeys<T> = keyof NoNever<MarkNever<T>>
+
+type A = MarkNever<Todo1>
+
+type B = NoNever<A>
+
+type C = keyof B

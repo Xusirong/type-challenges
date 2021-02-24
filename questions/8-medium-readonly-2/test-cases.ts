@@ -1,4 +1,5 @@
 import { Alike, Expect } from '@type-challenges/utils'
+import { type } from 'os'
 
 type cases = [
   Expect<Alike<MyReadonly2<Todo1>, Readonly<Todo1>>>,
@@ -23,3 +24,9 @@ interface Expected {
   readonly description?: string
   completed: boolean
 }
+
+type MyReadonly2<T, K = any> = T & {
+  readonly [key in keyof T as key extends K ? key : never]: T[key]
+}
+
+type A = MyReadonly2<Todo1, 'title' | 'description'>

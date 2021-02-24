@@ -9,3 +9,7 @@ interface Todo1 {
   description: string
   completed: boolean
 }
+
+type MyReadonly<T> = {
+  readonly [key in keyof T]: T[key]
+}
